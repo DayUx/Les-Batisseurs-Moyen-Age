@@ -1,0 +1,76 @@
+<project name="Batisseurs" default="run" basedir=".">
+    <description>
+        Les Batisseurs : Moyen Age
+    </description>
+	
+    <property name="src" location="src"/> <!--where the code is-->
+	<property name="class"  location="class"/> <!--where the compiled file will go-->
+    <property name="jar"  location="jar"/>  <!--where the jar file will go-->
+
+    <property name="javadoc"  location="javadoc"/> <!--where the javadoc will go-->
+    <property name="mainClass" value="Batisseurs"/>
+    <property name="version" value="1.0"/>
+    <property name="jarName" value="${mainClass}-${version}"/>
+    <property name="test" value="test"/> <!--where test code will go-->
+
+    <target name="init" description="initialize the folders where files are stored">
+        <!-- Create folders where files are stored-->
+        <mkdir dir="${jar}"/>
+        <mkdir dir="${class}"/>
+		<mkdir dir="${javadoc}"/>
+        <mkdir dir="${test}"/>
+    </target>
+
+    <target name="javadoc" depends="init">
+        <!-- Create the javadoc -->
+        <delete dir="${javadoc}"/>
+        <javadoc sourcepath="${src}/model/*.java" destdir="${javadoc}"/>
+    </target>
+
+    <target name="jar" depends="compile" description="generate the distribution" >
+        <!-- Create the jar file using the class in class-->
+        <jar jarfile="${jar}/${jarName}.jar" basedir="${class}">
+            <manifest>
+                <attribute name="Main-Class" value="${mainClass}"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="compile" depends="init" description="compile the source">
+        <!-- Compile the code in src -->
+        <javac srcdir="${src}" destdir="${class}" includeantruntime="false">
+            <exclude name="test/**"/>
+        </javac>
+    </target>
+
+
+    <target name="compile-test" depends="compile" description="compile the test code">
+        <!-- Compile the code test -->
+        <javac srcdir="${src}/test" destdir="${test}" includeantruntime="true">
+            <classpath>
+                <pathelement path="${class}"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="run" depends="jar" description="run the jar that has been built">
+        <!-- Run the built jar -->
+        <java jar="${jar}/${jarName}.jar" fork="true"/>
+
+    </target>
+
+    <target name="test" depends="compile-test" description="launch the tests">
+        <!-- Launch the tests classes -->
+        <junit printsummary="on" haltonfailure="off" fork="true" includeantruntime="true">
+            <classpath>
+                <pathelement path="${test}"/>
+                <pathelement path="${class}"/>
+                <pathelement path="${java.class.path}"/>
+            </classpath>
+            <formatter type="brief"/>
+            <batchtest todir="${test}">
+                <fileset dir="${src}" includes="test/*.java"/>
+            </batchtest>
+        </junit>
+    </target>
+</project>
