@@ -1,12 +1,13 @@
 package model;
 
-public class Carte {
+import java.io.Serializable;
+
+public class Carte implements Serializable {
 	private String nom;
 	private int pierre;
 	private int bois;
 	private int tuile;
 	private int savoir;
-	private boolean isMachine;
 
 	/**
 	 * Constructeur de Carte
@@ -70,6 +71,22 @@ public class Carte {
 	}
 
 	public void print() {
+	}
+
+	public void setBois(int bois) {
+		this.bois = bois;
+	}
+
+	public void setPierre(int pierre) {
+		this.pierre = pierre;
+	}
+
+	public void setSavoir(int savoir) {
+		this.savoir = savoir;
+	}
+
+	public void setTuile(int tuile) {
+		this.tuile = tuile;
 	}
 
 }

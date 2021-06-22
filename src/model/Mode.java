@@ -1,6 +1,8 @@
 package model;
 
-public enum Mode {
+import java.io.Serializable;
+
+public enum Mode implements Serializable {
 	HH, HHH, HHHH, AA, AAA, AAAA, HA, HAA, HAAA, HHA, HHAA, HHHA;
 
 	public int getNbBot() {

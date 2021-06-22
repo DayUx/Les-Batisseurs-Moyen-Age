@@ -1,15 +1,15 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.LinkedList;
 
 import utilitaire.RWFile;
 
-public class Board {
+public class Board implements Serializable {
 
 	private Joueur currentPlayer;
+	private Game game;
 	private ArrayList<Joueur> players;
 	private ArrayList<Ouvrier> apprentis;
 	private ArrayList<Ouvrier> ouvriers;
@@ -29,7 +29,7 @@ public class Board {
 	/**
 	 * Constructeur de board
 	 */
-	public Board(ArrayList<Joueur> players, Joueur currentPlayer) {
+	public Board(ArrayList<Joueur> players, Joueur currentPlayer, Game game) {
 		if (players != null && currentPlayer != null) {
 			this.players = players;
 			this.currentPlayer = currentPlayer;
@@ -38,6 +38,7 @@ public class Board {
 			this.apprentis = new ArrayList<Ouvrier>();
 			this.batiments = new ArrayList<Batiment>();
 			this.ouvriers = new ArrayList<Ouvrier>();
+			this.game = game;
 			initializePlayers();
 			initializeOuvriers();
 			initializeBatiments();
@@ -47,21 +48,40 @@ public class Board {
 		}
 	}
 
+	/**
+	 * Permet de recuperer l'objet game
+	 * 
+	 * @return return l'objet game
+	 */
+	public Game getGame() {
+		return game;
+	}
+
+	/**
+	 * Permet d'initialiser les ecus et autre attributs des joueurs
+	 */
 	public void initializePlayers() {
 		for (Joueur ply : this.players) {
 			ply.setBoard(this);
+			ply.setEcus(10);
 		}
 	}
 
+	/**
+	 * Permet de remplir la liste des cartes presentent sur le plateau de jeu
+	 */
 	public void fillDecks() {
-		while (this.ouvriers.size() < 5) {
+		while (this.ouvriers.size() < 5 && this.piocheOuv.size() != 0) {
 			this.ouvriers.add(this.piocheOuv.remove(this.piocheOuv.size() - 1));
 		}
-		while (this.batiments.size() < 5) {
+		while (this.batiments.size() < 5 && this.piocheBat.size() != 0) {
 			this.batiments.add(this.piocheBat.remove(this.piocheBat.size() - 1));
 		}
 	}
 
+	/**
+	 * Permet de print les cartes du plateau de jeu
+	 */
 	public void printCards() {
 		System.out.println("###################################################");
 		System.out.println("Batiments : ");
@@ -81,6 +101,9 @@ public class Board {
 
 	}
 
+	/**
+	 * Permet de print les cartes ouvrier presents sur le plateau de jeu
+	 */
 	public void printOuv() {
 		int i = 0;
 		for (Ouvrier ouvrier : ouvriers) {
@@ -90,6 +113,9 @@ public class Board {
 		}
 	}
 
+	/**
+	 * Permet de print les cartes batiments presents sur le plateau de jeu
+	 */
 	public void printBat() {
 		int i = 0;
 		for (Batiment batiment : batiments) {
@@ -99,6 +125,9 @@ public class Board {
 		}
 	}
 
+	/**
+	 * Permet de d'initialiser les carte ouvrier a l'aide d'un fichier
+	 */
 	public void initializeOuvriers() {
 		ArrayList<String> file = RWFile.readFile("../data/ouvrier.csv");
 		for (String string : file) {
@@ -115,7 +144,6 @@ public class Board {
 
 			tmp = string.substring(0, string.indexOf(";"));
 			if (!tmp.equals("")) {
-				System.out.println(tmp);
 				salaire = Integer.parseInt(tmp);
 			}
 			string = string.substring(string.indexOf(";") + 1);
@@ -164,6 +192,9 @@ public class Board {
 		}
 	}
 
+	/**
+	 * Permet de d'initialiser les carte machines et batiments a l'aide d'un fichier
+	 */
 	public void initializeBatiments() {
 		ArrayList<String> file = RWFile.readFile("../data/machines.csv");
 		for (String string : file) {
@@ -295,13 +326,6 @@ public class Board {
 	}
 
 	/**
-	 * Permet de recuperer le joueur qui joue
-	 */
-	public void getCurrentPlayer() {
-
-	}
-
-	/**
 	 * Permet de saisir le joueur qui joue
 	 * 
 	 * @param currentPlayer
@@ -319,6 +343,11 @@ public class Board {
 		return this.batiments;
 	}
 
+	/**
+	 * Permet de verifier si la partie a ete gagne par un joueur
+	 * 
+	 * @return return true si la partie a ete gagne par un joueur
+	 */
 	public boolean gameFinish() {
 		return this.currentPlayer.getPointsV() >= 17;
 	}

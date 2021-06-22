@@ -19,9 +19,9 @@ public class Game implements Serializable {
 
 			this.players = joueurs;
 			this.currentPlayer = this.players.get(0);
-			this.board = new Board(this.players, this.currentPlayer);
+			this.board = new Board(this.players, this.currentPlayer, this);
 		} else {
-			System.out.println("Game : param is null");
+			System.out.println("Game : parameter is null");
 		}
 
 	}
@@ -32,13 +32,16 @@ public class Game implements Serializable {
 	public void start() {
 		this.board.setCurrentPlayer(this.currentPlayer);
 		while (!this.board.gameFinish()) {
-			this.currentPlayer.print();
+			changeCurrentPlayer();
+			this.board.setCurrentPlayer(this.currentPlayer);
 			System.out.println("#############################################");
 			System.out.println("# Joueur " + this.currentPlayer.getNom() + " a vous de jouer ");
 			System.out.println("# tour numero " + this.row);
 			System.out.println("#############################################");
+
 			this.currentPlayer.play();
-			this.currentPlayer.setPointsV(18);
+			rowPlus();
+
 		}
 	}
 
@@ -46,6 +49,14 @@ public class Game implements Serializable {
 	 * Permet de changer le joueur qui joue actuellement
 	 */
 	public void changeCurrentPlayer() {
+		int size = players.size();
+		int indx = players.indexOf(this.currentPlayer);
+		if (indx == (size - 1)) {
+			indx = 0;
+		} else {
+			indx = indx + 1;
+		}
+		this.currentPlayer = players.get(indx);
 	}
 
 	/**
@@ -58,29 +69,19 @@ public class Game implements Serializable {
 	}
 
 	/**
+	 * Incremente l'attribut row
+	 */
+	public void rowPlus() {
+		this.row++;
+	}
+
+	/**
 	 * renvoie le message de fin de partie
 	 * 
 	 * @return return le message de fin de partie
 	 */
 	public String endGame() {
 		return "";
-	}
-
-	/**
-	 * renvoie le message de debut de partie
-	 * 
-	 * @return return le message de debut de partie
-	 */
-	public String startGame() {
-		return "";
-	}
-
-	/**
-	 * Permet de sauvegarder la partie
-	 * 
-	 * @param folderPath l'endroit ou vous voulez sauvegarder le fichier
-	 */
-	public void save(String folderPath) {
 	}
 
 	/**

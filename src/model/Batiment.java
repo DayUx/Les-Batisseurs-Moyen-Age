@@ -2,7 +2,6 @@ package model;
 
 public class Batiment extends Carte {
 
-	private boolean construct;
 	private int ecus;
 	private int pointV;
 
@@ -19,6 +18,10 @@ public class Batiment extends Carte {
 	 */
 	public Batiment(String nom, int bois, int pierre, int tuile, int savoir, int pointV, int ecus) {
 		super(nom, bois, pierre, tuile, savoir);
+
+		this.ecus = ecus;
+		this.pointV = pointV;
+
 	}
 
 	/**
@@ -39,10 +42,13 @@ public class Batiment extends Carte {
 		return ecus;
 	}
 
+	/**
+	 * Permet de print les attributs de cet objet
+	 */
 	public void print() {
 		System.out.println("Batiment(nom : " + this.getNom() + ", bois : " + this.getBois() + ", pierre : "
 				+ this.getPierre() + ", tuile : " + this.getTuile() + ", savoir : " + this.getSavoir() + ", ecus : "
-				+ this.getEcus());
+				+ this.getEcus() + ", points :" + getPointVictoire());
 	}
 
 }

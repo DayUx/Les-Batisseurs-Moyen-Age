@@ -1,5 +1,7 @@
 package model;
 
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -18,8 +20,22 @@ public class Batisseurs {
 		newGame();
 	}
 
+	/**
+	 * Constructeur de batisseur
+	 * 
+	 * @param file nom du fichier de sauvegarde se trouvant dans data
+	 */
 	public Batisseurs(String file) {
-		loadGame(file);
+
+		try {
+			FileInputStream streamIn = new FileInputStream("../data/" + file);
+			ObjectInputStream objectinputstream = new ObjectInputStream(streamIn);
+			Game readCase = (Game) objectinputstream.readObject();
+			this.game = readCase;
+			this.game.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

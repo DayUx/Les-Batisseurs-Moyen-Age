@@ -39,10 +39,14 @@ public class Ouvrier extends Carte {
 	/**
 	 * Permet d'assigner l'ouvrier a un chantier
 	 */
-	public void setTravaillePour() {
+	public void setTravaillePour(Batiment b) {
+		this.travaillePour = b;
 
 	}
 
+	/**
+	 * permet de print les infoos d'un ouvrier
+	 */
 	public void print() {
 		System.out.println("Ouvrier( nom : " + this.getNom() + ", bois : " + this.getBois() + ", pierre : "
 				+ this.getPierre() + ", tuile : " + this.getTuile() + ", savoir : " + this.getSavoir() + ", salaire : "
