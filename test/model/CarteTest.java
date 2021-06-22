@@ -1,6 +1,12 @@
 package model;
 
 import org.junit.Test;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertEquals;
+import org.junit.Test;
+import org.junit.*;
+import org.junit.Test;
+import org.junit.*;
 
 import static org.junit.Assert.*;
 

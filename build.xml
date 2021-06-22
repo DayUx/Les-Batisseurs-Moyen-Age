@@ -8,7 +8,7 @@
     <property name="jar"  location="jar"/>  <!--where the jar file will go-->
 
     <property name="javadoc"  location="javadoc"/> <!--where the javadoc will go-->
-    <property name="mainClass" value="Batisseurs"/>
+    <property name="mainClass" value="Launcher"/>
     <property name="version" value="1.0"/>
     <property name="jarName" value="${mainClass}-${version}"/>
     <property name="test" value="test"/> <!--where test code will go-->
@@ -24,7 +24,7 @@
     <target name="javadoc" depends="init">
         <!-- Create the javadoc -->
         <delete dir="${javadoc}"/>
-        <javadoc sourcepath="${src}/model/*.java" destdir="${javadoc}"/>
+        <javadoc sourcepath="${src}" packagenames="model, utilitaire, view, controller" destdir="${javadoc}"/>
     </target>
 
     <target name="jar" depends="compile" description="generate the distribution" >
@@ -46,7 +46,7 @@
 
     <target name="compile-test" depends="compile" description="compile the test code">
         <!-- Compile the code test -->
-        <javac srcdir="${src}/test" destdir="${test}" includeantruntime="true">
+        <javac srcdir="${src}" destdir="${test}" includeantruntime="true">
             <classpath>
                 <pathelement path="${class}"/>
             </classpath>
@@ -59,14 +59,21 @@
 
     </target>
 
+
+
+
+
     <target name="test" depends="compile-test" description="launch the tests">
         <!-- Launch the tests classes -->
         <junit printsummary="on" haltonfailure="off" fork="true" includeantruntime="true">
             <classpath>
+				
                 <pathelement path="${test}"/>
                 <pathelement path="${class}"/>
                 <pathelement path="${java.class.path}"/>
             </classpath>
+			<classpath location="lib/junit-4.12.jar" />
+			<classpath location="lib/hamcrest-core-1.3.jar" />
             <formatter type="brief"/>
             <batchtest todir="${test}">
                 <fileset dir="${src}" includes="test/*.java"/>
