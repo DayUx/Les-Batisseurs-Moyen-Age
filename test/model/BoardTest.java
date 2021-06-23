@@ -20,7 +20,7 @@ public class BoardTest {
         ArrayList<Joueur> players = new ArrayList<Joueur>();
         players.add(new Joueur("test"));
         g = new Game(null);
-        b = new Board(players,new Joueur("test"),g);
+        b = new Board(null,null,g);
     }
 
     @After
@@ -28,8 +28,8 @@ public class BoardTest {
         b = null;
     }
 
-   // @Test
-    //public void getGame() {                                             //test impossible car il ne trouve pas les fichier de configuration
-      //  assertEquals("Expect object g", g, b.getGame());
-    //}
+    @Test
+    public void getGame() {
+        assertEquals("Expect object g", null, b.getGame()); //Game n'a pas été assigné à la creation de board car certains parametres de celui ci sont null
+    }
 }

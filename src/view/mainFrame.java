@@ -19,7 +19,7 @@ public class mainFrame extends JFrame {
         this.actionListener = new listenerBatisseurs(this);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(1024, 720));
-        setTitle("BibliGO");
+        setTitle("LesBatisseurs");
 
         initComponents();
         pack();
